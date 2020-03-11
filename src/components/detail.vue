@@ -1,6 +1,6 @@
 <template>
 	 <!-- v-loading.fullscreen.lock="this.$store.state.is_show" -->
-	<div>
+	<div :style="{'max-height':screen_hight}" class="outer">
 		<el-backtop :bottom="60"></el-backtop>
 		<el-header>
 			<el-page-header @back="routerback" content="详情页面" style="padding-top:15px;">
@@ -19,9 +19,9 @@
 		  		</p>
 		  		<p style="align:right;margin: 5px 0 5px 0;text-align: right;">
 		  			<el-tag
-		  			    v-for="(t,index) in blog.tag" 
+		  			    v-for="(t,index) in blog.tag"
 		  				:key="t.id"
-		  			    effect="light" 
+		  			    effect="light"
 		  				style="margin-right: 5px;">
 		  			    {{t.name}}
 		  			</el-tag>
@@ -35,7 +35,7 @@
 		  		</div>
 		  </el-main>
 		</el-container>
-		
+
 	</div>
 </template>
 
@@ -79,7 +79,7 @@ marked.setOptions({
 	smartLists: true,
 	smartypants: false,
 	highlight: function (code, lang) {
-		if (lang && hljs.getLanguage(lang)) {    
+		if (lang && hljs.getLanguage(lang)) {
 			return hljs.highlight(lang, code, true).value;
 		} else {
 			return hljs.highlightAuto(code).value;
@@ -100,20 +100,24 @@ export default{
 			next((vm) =>{vm.setData(response.data)});
 		});
 	},
+  computed: {
+      screen_hight: function() {
+        return document.body.clientHeight + 'px';
+      }
+    },
 	methods:{
 		setData(result){
 			if(result){
 				this.blog = result.data;
 				this.content = marked(result.data['text']);
 			}
-			// setTimeout(()=>{this.$store.state.screen = false},500);
 		},
 		routerback: function () {
 			this.$router.back(-1)
 		},
-		
-		
-		
+
+
+
 		escape:function (html, encode) {
 		  return html
 		    .replace(!encode ? /&(?!#?\w+;)/g : /&/g, '&amp;')
@@ -123,7 +127,7 @@ export default{
 		    .replace(/'/g, '&#39;');
 		},
 		unescape:function (html) {
-		  // explicitly match decimal, hex, and named HTML entities 
+		  // explicitly match decimal, hex, and named HTML entities
 		  return html.replace(/&(#(?:\d+)|(?:#x[0-9A-Fa-f]+)|(?:\w+));?/g, function(_, n) {
 		    n = n.toLowerCase();
 		    if (n === 'colon') return ':';

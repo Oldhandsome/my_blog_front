@@ -1,5 +1,5 @@
 <template>
-	<div :style="{height:screen_hight}" class="outer">
+	<div :style="{'max-height':screen_hight}" class="outer">
 		<el-backtop :bottom="60"></el-backtop>
 		<my_header></my_header>
 		<el-container >
@@ -117,9 +117,6 @@
 </script>
 
 <style scoped>
-  .outer{
-    overflow-y: auto;
-  }
 	.el-main{
 		width:100%;
 		padding-top: 30px;

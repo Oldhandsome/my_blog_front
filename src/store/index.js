@@ -10,7 +10,8 @@ export default new Vuex.Store({
 			detail:"/app01/blog/",
 			taglist:"/app01/tags/",
 			brief_blog_by_tag:"/app01/tag/",
-      search_result:"/app01/search/"
+      search_result:"/app01/search/",
+      suggestion:"/app01/suggestion/",
 		},
 		screen:false,
 	},

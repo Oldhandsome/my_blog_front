@@ -1,5 +1,5 @@
 <template>
-	<div style="height: 100%;width: 100%;margin: 0;padding: 0;">
+	<div :style="{'max-height':screen_hight}" class="outer tag_div">
 		<el-backtop :bottom="60"></el-backtop>
 		<my_header>	</my_header>
 		<el-container >
@@ -38,8 +38,6 @@
 					</li>
 				</ul>
 			</el-main>
-			<el-footer>
-			</el-footer>
 		</el-container>
 	</div>
 </template>
@@ -56,7 +54,7 @@ export default {
 		return{
 			tag_list:[],
 			color_list:['#00CD00','#1abc9c','#3498db','#9b59b6','#9400D3','#e67e22','#e74c3c','#8B0000']
-		}	
+		}
 	},
 	components:{
 		blogs_to_tag :blogs_to_tag,
@@ -71,6 +69,11 @@ export default {
 			this.set_taglist(response.data.data);
 		});
 	},
+  computed: {
+    screen_hight: function() {
+      return (document.body.clientHeight || document.documentElement.clientHeight) + 'px';
+    }
+  },
 	methods:{
 		set_taglist(result){
 			if(result)
@@ -83,18 +86,23 @@ export default {
 			let current = document.documentElement.scrollTop || document.body.scrollTop
 			scrollAnimation(current,target);
 		},
-		
+
 	},
 }
 </script>
 
 <style scoped>
+  .tag_div{
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
 	.el-main{
 		width:100%;
 		/* 上右下左 */
 		padding:30px 20% 60px 30%;
 	}
-	
+
 	.tags{
 		height: 30px;
 		line-height: 30px;
@@ -104,7 +112,7 @@ export default {
 		margin: 5px 3px;
 		padding: 0 12px;
 		display:inline-block;
-		text-align: center; 
+		text-align: center;
 		cursor: pointer;
 	}
 	.tags:hover{transition: -moz-transform 2s ease-out 0s;box-shadow: 0 0 3px black;}

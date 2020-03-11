@@ -130,3 +130,7 @@ background: linear-gradient(to right, #4ca1af, #c4e0e5); /* W3C, IE 10+/ Edge, F
 	-moz-transform: scale(1.2) translate3d(-300px, 300px, 0);
   }
 }
+
+.outer{
+    overflow-y: auto;
+  }
