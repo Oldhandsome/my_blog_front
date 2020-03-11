@@ -15,6 +15,7 @@
     "github-markdown-css": "^3.0.1",
     "highlight.js": "^9.18.1",
     "marked": "^0.8.0",
+    "mavon-editor": "^2.7.7",
     "vue": "^2.5.2",
     "vue-infinite-loading": "^2.4.4",
     "vue-router": "^3.0.1",

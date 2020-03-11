@@ -26,8 +26,8 @@ axios.interceptors.request.use(function(config){
 axios.interceptors.response.use(
 	// store.state.isShow=false;//在这里对返回的数据进行处理
 	response => {
-		if(response.data.code != 1000)
-			this.$message.error(response.data.message);
+		// if(response.data.code != 1000)
+		// 	this.$message.error(response.data.message);
 		return response
 	},
 	error => {

@@ -12,6 +12,7 @@ export default new Vuex.Store({
 			brief_blog_by_tag:"/app01/tag/",
       search_result:"/app01/search/",
       suggestion:"/app01/suggestion/",
+      authentication:"/app01/authenticate/",
 		},
 		screen:false,
 	},

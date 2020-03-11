@@ -67,3 +67,15 @@ export const get_suggestion = async (word) => {
     }
   });
 }
+export const authenticate_user = async (email, password, validate_code) => {
+  return await Axios.request({
+    url:store.state.api_obj.authentication,
+    method:"POST",
+    params:{},
+    data:{
+      "email":email,
+      "pwd":password,
+      "validate_code":validate_code
+    }
+  });
+}
