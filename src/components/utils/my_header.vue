@@ -13,7 +13,7 @@
               <span class="tool-item" @click="tag()">标签</span>
               <span class="tool-item" @click="search()">搜索</span>
               <span class="tool-item" @click="handle_click()">用户</span>
-              <span class="tool-item" @click="">博客</span>
+              <span class="tool-item" @click="edit_blog()">博客</span>
             </div>
           </transition>
           <span @click="show_toolbar();" class="tool-item">更多</span>
@@ -131,6 +131,12 @@
           });
         }
       },
+
+      edit_blog(){
+        this.$router.push({
+          name: "editor",
+        });
+      }
     }
   }
 </script>

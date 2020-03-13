@@ -5,6 +5,7 @@ import blogs from "../components/blogs.vue"
 import detail from "../components/detail.vue"
 import tag from '../components/tag.vue'
 import my_search from "../components/search.vue"
+import editor from "../components/editor.vue"
 Vue.use(Router)
 
 export default new Router({
@@ -34,6 +35,11 @@ export default new Router({
 		path:"/search",
 		name:"my_search",
 		component:my_search,
-	}
+	},
+  {
+    path:"/editor",
+    name:"editor",
+    component:editor,
+  },
 	]
 })

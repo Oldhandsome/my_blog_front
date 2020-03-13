@@ -2,7 +2,6 @@ import Vue from 'vue'
 import App from './App'
 import router from "./router/index.js"
 Vue.config.productionTip = false
-/* eslint-disable no-new */
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 Vue.use(ElementUI);
@@ -13,6 +12,12 @@ Vue.use(InfiniteLoading,{})
 import {get_token} from "./restful/index.js"
 import axios from "axios"
 import store from './store/index.js'
+
+import mavonEditor from 'mavon-editor'
+import 'mavon-editor/dist/css/index.css'
+Vue.use(mavonEditor)
+
+
 axios.interceptors.request.use(function(config){
 	// store.state.isShow=true; //在请求发出之前进行一些操作
 	// console.log(config)
