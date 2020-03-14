@@ -13,6 +13,7 @@ export default new Vuex.Store({
       search_result:"/app01/search/",
       suggestion:"/app01/suggestion/",
       authentication:"/app01/authenticate/",
+      validation_code:"/app01/get_validate_code/",
 		},
 		screen:false,
 	},

@@ -12,8 +12,8 @@
               <span class="tool-item" @click="homepage()">首页</span>
               <span class="tool-item" @click="tag()">标签</span>
               <span class="tool-item" @click="search()">搜索</span>
-              <span class="tool-item" @click="handle_click()">用户</span>
-              <span class="tool-item" @click="edit_blog()">博客</span>
+              <span class="tool-item" @click="user()">用户</span>
+              <span class="tool-item" @click="edit_blog()">管理</span>
             </div>
           </transition>
           <span @click="show_toolbar();" class="tool-item">更多</span>
@@ -22,16 +22,20 @@
     </el-header>
 
     <el-dialog title="登录" :visible.sync="login_form_flag" :append-to-body="true" width="35%" :show-close="false"
-      :destroy-on-close="true">
+      :destroy-on-close="true" @open="open_dialog">
       <el-form :model="form">
         <el-form-item label="邮箱" :label-width="formLabelWidth">
-          <el-input v-model="form.email" autocomplete="off"></el-input>
+          <el-input v-model="form.email" autocomplete="on"></el-input>
         </el-form-item>
         <el-form-item label="密码" :label-width="formLabelWidth">
           <el-input v-model="form.password" autocomplete="off" show-password></el-input>
         </el-form-item>
         <el-form-item label="验证码" :label-width="formLabelWidth">
-          <el-input v-model="form.validate_code" autocomplete="off"></el-input>
+          <el-input v-model="form.validate_code" autocomplete="off">
+            <template slot="prepend">
+              <img :src="validate_code_img" style="vertical-align:middle; height:38px; width:100px;" @click="get_validate_img" />
+            </template>
+          </el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -40,8 +44,7 @@
       </div>
     </el-dialog>
 
-    <el-drawer title="我是标题" :visible.sync="drawer" :with-header="false" :show-close="false"
-      :append-to-body="true">
+    <el-drawer title="我是标题" :visible.sync="drawer" :with-header="false" :show-close="false" :append-to-body="true">
       <span>我来啦!</span>
     </el-drawer>
   </div>
@@ -50,6 +53,9 @@
 <script>
   import {
     authenticate_user
+  } from "../../restful/index.js"
+  import {
+    get_validation_code
   } from "../../restful/index.js"
   export default {
     name: "my_header",
@@ -62,11 +68,14 @@
         formLabelWidth: '80px',
         confirmButtonText: "确定",
         confirmBusy: false,
+        validate_code_img: "",
         form: {
+          id: "",
           email: "",
           password: "",
           validate_code: "",
         },
+
       }
     },
     methods: {
@@ -88,29 +97,42 @@
           name: 'my_search'
         });
       },
+      open_dialog() {
+        this.form.email = "";
+        this.form.password = "";
+        this.form.validate_code = "";
+        this.get_validate_img();
+      },
 
       login() {
         this.confirmButtonText = "执行中";
         this.confirmBusy = true;
         let _self = this;
         setTimeout(function() {
-          authenticate_user(_self.form.email, _self.form.password, _self.form.validate_code).then((response) => {
+          authenticate_user(_self.form.id, _self.form.email, _self.form.password, _self.form.validate_code).then((
+            response) => {
             if (response.data.code == "1009") {
-              _self.confirmButtonText = "确定";
-              _self.confirmBusy = false;
               sessionStorage.setItem("A-TOKEN", response.data.data);
-              _self.form.email = "";
-              _self.form.password = "";
-              _self.form.validate_code = "";
+              _self.$message({
+                message: '亲爱的用户，您好！',
+                type: 'success'
+              });
             }
-            // 将对话框关闭
+            _self.confirmButtonText = "确定";
+            _self.confirmBusy = false;
             _self.login_form_flag = false;
           });
         }, 500);
       },
-      handle_click() {
+      get_validate_img() {
+        get_validation_code().then((response) => {
+          let img_obj = response.data;
+          this.form.id = response.data.data.id;
+          this.validate_code_img = "data:image/png;base64," + response.data.data.image;
+        });
+      },
+      user() {
         if (sessionStorage.getItem("A-TOKEN") == null || sessionStorage.getItem("A-TOKEN") == "") {
-          // 如果时没有登录
           this.login_form_flag = true
         } else {
           this.$confirm('确定退出么?', '提示', {
@@ -126,16 +148,23 @@
           }).catch(() => {
             this.$message({
               type: 'info',
-              message: '取消退出'
+              message: '取消退出!'
             });
           });
         }
       },
 
-      edit_blog(){
-        this.$router.push({
-          name: "editor",
-        });
+      edit_blog() {
+        if (sessionStorage.getItem("A-TOKEN") == null || sessionStorage.getItem("A-TOKEN") == "") {
+          this.$message({
+            message: '请点击用户登录!',
+            type: 'warning'
+          });
+        } else {
+          this.$router.push({
+            name: "editor",
+          });
+        }
       }
     }
   }
