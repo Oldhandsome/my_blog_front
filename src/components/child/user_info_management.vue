@@ -1,6 +1,9 @@
 <template>
   <div>
-    我好
+    <p>昵称</p>
+    <p>邮箱</p>
+    <p>创建</p>
+    <P>上次登录</P>
   </div>
 </template>
 
@@ -10,5 +13,5 @@
   }
 </script>
 
-<style>
+<style scoped>
 </style>

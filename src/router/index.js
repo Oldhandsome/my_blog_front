@@ -12,7 +12,6 @@ import user_info_management from "../components/child/user_info_management.vue"
 Vue.use(Router)
 
 export default new Router({
-  mode: 'history',
   routes: [{
       path: '/',
       name: 'homepage',
@@ -42,6 +41,24 @@ export default new Router({
       path: "/management",
       name: "management",
       component: management,
+      redirect:{name:"user_info_management"},
+      children:[
+      	{
+      		path:"/management/blog",
+      		name:"blog_management",
+      		component:blog_management,
+      	},
+      	{
+      		path:'/management/tag',
+      		name:"tag_management",
+      		component:tag_management,
+      	},
+      	{
+      		path:"/management/user_info",
+      		name:"user_info_management",
+      		component:user_info_management
+      	},
+      ],
     },
   ]
 })

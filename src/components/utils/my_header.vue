@@ -162,7 +162,7 @@
           });
         } else {
           this.$router.push({
-            name: "editor",
+            name: "management",
           });
         }
       }

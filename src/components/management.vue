@@ -1,33 +1,35 @@
 <template>
-  <div :style="{'max-height':screen_hight}">
+  <div style="background-color: white;">
     <el-backtop :bottom="60"></el-backtop>
-    <el-col :span="4">
-      <el-menu default-active="3" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose">
-        <el-menu-item index="1" >
-          <i class="el-icon-tickets"></i>
-          <span slot="title">个人博客</span>
-        </el-menu-item>
-        <el-menu-item index="2">
-          <i class="el-icon-menu"></i>
-          <span slot="title">个人标签</span>
-        </el-menu-item>
-        <el-menu-item index="3">
-          <i class="el-icon-document"></i>
-          <span slot="title">个人信息</span>
-        </el-menu-item>
-        <el-menu-item index="4">
-          <i class="el-icon-back"></i>
-          <span slot="title">回主菜单</span>
-        </el-menu-item>
-      </el-menu>
-    </el-col>
-    <!--      <el-col :span="20" class="outer editor" :style="{'max-height':screen_hight}">
-        <mavon-editor v-model="blog_text" ref="md" @change="change" :code_style="code_style" :ishljs="true"
-          :externalLink="externalLink" :style="{'min-height':screen_hight}" />
-      </el-col> -->
-    <el-main :style="{'max-height':screen_hight}" class="outer">
-      <router-view></router-view>
-    </el-main>
+    <el-container :style="{'height':screen_hight}" class="outer">
+      <el-col :span="4" :style="{'min-height':screen_hight}" class="toolbar">
+        <el-menu class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" :router="true">
+          <el-menu-item index="/management/blog">
+            <i class="el-icon-tickets"></i>
+            <span slot="title">个人博客</span>
+          </el-menu-item>
+          <el-menu-item index="/management/tag">
+            <i class="el-icon-menu"></i>
+            <span slot="title">个人标签</span>
+          </el-menu-item>
+          <el-menu-item index="/management/user_info">
+            <i class="el-icon-document"></i>
+            <span slot="title">个人信息</span>
+          </el-menu-item>
+          <el-menu-item index="/blogs">
+            <i class="el-icon-back"></i>
+            <span slot="title">回主页面</span>
+          </el-menu-item>
+        </el-menu>
+      </el-col>
+      <!--      <el-col :span="20" class="outer editor" :style="{'max-height':screen_hight}">
+          <mavon-editor v-model="blog_text" ref="md" @change="change" :code_style="code_style" :ishljs="true"
+            :externalLink="externalLink" :style="{'min-height':screen_hight}" />
+        </el-col> -->
+       <el-col :span="20" :style="{'max-height':screen_hight}" class="main">
+         <router-view></router-view>
+       </el-col>
+    </el-container>
   </div>
 </template>
 
@@ -86,11 +88,19 @@
 </script>
 
 <style scoped>
-  .toolbar {
-    padding: 20px 10px 20px 20px;
+  .el-menu{
+    border: none;
+  }
+  .container{
   }
 
-  .editor {
-    padding: 20px 20px 20px 0px;
+  .toolbar {
+    border-right: solid 1px #e6e6e6;;
+    background-color: white;
+  }
+
+  .main {
+    float: right;
+    background-color: white;
   }
 </style>
