@@ -1,6 +1,5 @@
 <template>
   <div :style="{'max-height':screen_hight}" class="outer">
-    <el-backtop :bottom="60"></el-backtop>
     <my_header></my_header>
     <el-container>
       <el-main>
@@ -28,7 +27,7 @@
       </el-main>
       <el-footer>
         <infinite-loading @infinite="onInfinite" :distance="5">
-          <span slot="no-more">————————别扯我了,我也是有底线的————————</span>
+          <span slot="no-more">————————别扯了,我也是有底线的————————</span>
         </infinite-loading>
       </el-footer>
     </el-container>
@@ -36,11 +35,8 @@
 </template>
 
 <script>
-  import {
-    getBlogList
-  } from "../restful/index.js"
+  import {getBlogList} from "../restful/index.js"
   import my_header from "./utils/my_header.vue"
-  import store from '../store/index.js'
   import InfiniteLoading from 'vue-infinite-loading';
   export default {
     name: "blogs",
@@ -59,27 +55,23 @@
       }
     },
     computed: {
-      // 滚动区高度
-      // (业务需求：手机屏幕高度减去头部标题和底部tabbar的高度，当然这2个高度也是可以动态获取的)
       screen_hight: function() {
         return (document.body.clientHeight || document.documentElement.clientHeight) + 'px';
       }
     },
     beforeRouteEnter: (to, from, next) => {
-      // ()=>{store.state.screen = false;}
       next();
     },
     created() {
       getBlogList(0, 10).then((response) => {
         this.set_Blog_List(response.data, 10);
       });
-      // store.state.screen = false;
     },
     methods: {
       onInfinite($state) {
         let that = this;
         if (that.more) {
-          if ((!that.loading)) {
+          if (!that.loading) {
             that.loading = true;
             setTimeout(() => {
               getBlogList(that.offset, 2).then((response) => {
@@ -108,7 +100,6 @@
         }
       },
       click_blog(blog_id) {
-        // this.$store.state.screen = true;
         this.$router.push({
           name: "detail",
           params: {
@@ -135,8 +126,7 @@
 
   .list-enter,
   .list-leave-to
-
-  /* .list-leave-active for below version 2.1.8 */
+/* .list-leave-active for below version 2.1.8 */
     {
     opacity: 0;
     transform: translateY(30px);

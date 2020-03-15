@@ -1,7 +1,5 @@
 <template>
-  <!-- v-loading.fullscreen.lock="this.$store.state.is_show" -->
-  <div :style="{'max-height':screen_hight}" class="outer">
-    <el-backtop :bottom="60"></el-backtop>
+  <div>
     <el-header>
       <el-page-header @back="routerback" content="详情页面" style="padding-top:15px;">
       </el-page-header>
@@ -31,7 +29,6 @@
         </div>
       </el-main>
     </el-container>
-
   </div>
 </template>
 
