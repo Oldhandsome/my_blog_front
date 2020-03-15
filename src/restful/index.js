@@ -15,13 +15,24 @@ export const get_token = () => {
       sessionStorage.setItem("X-TOKEN", response.data.data);
   })
 };
-export const getBlogList = async (offset, limit) => {
+export const getBlogTotal = async () => {
   return await Axios.request({
     url: store.state.api_obj.bloglist,
     method: "GET",
+    params: {}
+  });
+};
+export const getBlogList = async (offset, limit) => {
+  let email = sessionStorage.getItem("email","over_flowing@163.com");
+  return await Axios.request({
+    url: store.state.api_obj.bloglist,
+    method: "POST",
     params: {
       'o': offset,
       'l': limit,
+    },
+    data: {
+      'email':email
     }
   });
 };
@@ -33,10 +44,13 @@ export const get_detail = async (blog_id) => {
   });
 };
 export const get_tags = async () => {
+  let email = sessionStorage.getItem("email","over_flowing@163.com");
   return await Axios.request({
     url: store.state.api_obj.taglist,
     method: "GET",
-    params: {}
+    params: {
+      "email":email
+    }
   });
 };
 export const ge_brief_blogs_by_tag = async (tag_id) => {
@@ -87,3 +101,8 @@ export const authenticate_user = async (id, email, password, validate_code) => {
     }
   });
 };
+// export const update_blog_attr = async (attr_form) =>{
+//   return await Axios.request({
+//     url:store.state.api_obj.up
+//   });
+// };

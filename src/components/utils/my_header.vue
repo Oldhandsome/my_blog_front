@@ -113,6 +113,7 @@
             response) => {
             if (response.data.code == "1009") {
               sessionStorage.setItem("A-TOKEN", response.data.data);
+              sessionStorage.setItem("email", _self.form.email);
               _self.$message({
                 message: '亲爱的用户，您好！',
                 type: 'success'
