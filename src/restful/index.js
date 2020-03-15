@@ -23,33 +23,35 @@ export const getBlogTotal = async () => {
   });
 };
 export const getBlogList = async (offset, limit) => {
-  let email = sessionStorage.getItem("email","over_flowing@163.com");
+  let email = sessionStorage.getItem("email");
+  if(email == null || email == "")
+    email = "over_flowing@163.com"
   return await Axios.request({
     url: store.state.api_obj.bloglist,
     method: "POST",
     params: {
       'o': offset,
       'l': limit,
+      'email': email,
     },
-    data: {
-      'email':email
-    }
   });
 };
 export const get_detail = async (blog_id) => {
   return await Axios.request({
-    url: store.state.api_obj.detail + blog_id + "/",
+    url: store.state.api_obj.detail,
     method: "GET",
-    params: {}
+    params: {
+      id: blog_id,
+    }
   });
 };
 export const get_tags = async () => {
-  let email = sessionStorage.getItem("email","over_flowing@163.com");
+  let email = sessionStorage.getItem("email", "over_flowing@163.com");
   return await Axios.request({
     url: store.state.api_obj.taglist,
     method: "GET",
     params: {
-      "email":email
+      "email": email
     }
   });
 };
@@ -74,7 +76,7 @@ export const get_search_result = async (keyword, position) => {
 };
 export const get_suggestion = async (word) => {
   return await Axios.request({
-    url: store.state.api_obj.suggestion,
+    url: store.state.api_obj.search_result,
     method: "GET",
     params: {
       "word": word
@@ -101,8 +103,38 @@ export const authenticate_user = async (id, email, password, validate_code) => {
     }
   });
 };
-// export const update_blog_attr = async (attr_form) =>{
-//   return await Axios.request({
-//     url:store.state.api_obj.up
-//   });
-// };
+
+export const update_blog_attr = async (attr_form) => {
+  return await Axios.request({
+    url: store.state.api_obj.detail,
+    method: "PUT",
+    params: {},
+    data: {
+      type:attr_form.type,
+      id: attr_form.id,
+      title: attr_form.title,
+      tag_list: attr_form.tag,
+    }
+  });
+};
+export const update_blog_text = async (blog) => {
+  return await Axios.request({
+    url: store.state.api_obj.detail,
+    method: "PUT",
+    params: {},
+    data: {
+      type:blog.type,
+      id: blog.id,
+      text:blog.text,
+    }
+  });
+};
+export const delete_blog = async (blog_id) =>{
+  return await Axios.request({
+    url:store.state.api_obj.detail,
+    method:"DELETE",
+    params:{
+      id:blog_id,
+    },
+  });
+};

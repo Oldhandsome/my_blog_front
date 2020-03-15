@@ -61,7 +61,6 @@ export default {
 		my_header:my_header,
 	},
 	beforeRouteEnter:(to,from,next)=>{
-		// setTimeout(()=>{store.state.screen = false;},500);
 		next();
 	},
 	created(){

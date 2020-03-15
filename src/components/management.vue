@@ -23,8 +23,7 @@
         </el-menu>
       </el-col>
       <!--      <el-col :span="20" class="outer editor" :style="{'max-height':screen_hight}">
-          <mavon-editor v-model="blog_text" ref="md" @change="change" :code_style="code_style" :ishljs="true"
-            :externalLink="externalLink" :style="{'min-height':screen_hight}" />
+          
         </el-col> -->
        <el-col :span="20" :style="{'max-height':screen_hight}" class="main">
          <router-view></router-view>

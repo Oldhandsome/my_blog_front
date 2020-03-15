@@ -11,7 +11,6 @@ export default new Vuex.Store({
 			taglist:"/app01/tags/",
 			brief_blog_by_tag:"/app01/tag/",
       search_result:"/app01/search/",
-      suggestion:"/app01/suggestion/",
       authentication:"/app01/authenticate/",
       validation_code:"/app01/get_validate_code/",
 		},

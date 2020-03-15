@@ -10,7 +10,6 @@
 </template>
 
 <script>
-import loading from "./components/loading.vue"
 export default {
 	name: 'App',
 	provide () {

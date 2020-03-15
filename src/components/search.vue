@@ -95,7 +95,7 @@
         return suggestion;
       },
       handleSelect(item) {
-        console.log(item);
+        // console.log(item);
       },
       handelClick(keyword) {
         get_search_result(this.keyword, 0).then((response) => {
