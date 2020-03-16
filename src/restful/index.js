@@ -24,7 +24,7 @@ export const getBlogTotal = async () => {
 };
 export const getBlogList = async (offset, limit) => {
   let email = sessionStorage.getItem("email");
-  if(email == null || email == "")
+  if (email == null || email == "")
     email = "over_flowing@163.com"
   return await Axios.request({
     url: store.state.api_obj.bloglist,
@@ -51,18 +51,19 @@ export const get_tags = async () => {
     url: store.state.api_obj.taglist,
     method: "GET",
     params: {
-      "email": email
+      email: email
     }
   });
 };
 export const ge_brief_blogs_by_tag = async (tag_id) => {
   return await Axios.request({
-    url: store.state.api_obj.brief_blog_by_tag + tag_id + "/",
+    url: store.state.api_obj.brief_blog_by_tag,
     method: "GET",
-    params: {}
+    params: {
+      t_id: tag_id,
+    }
   });
 };
-
 export const get_search_result = async (keyword, position) => {
   return await Axios.request({
     url: store.state.api_obj.search_result,
@@ -72,6 +73,13 @@ export const get_search_result = async (keyword, position) => {
       "keyword": keyword,
       "position": position
     }
+  });
+};
+export const get_type_list = async () => {
+  return await Axios.request({
+    url: store.state.api_obj.type_list,
+    method: "GET",
+    params: {},
   });
 };
 export const get_suggestion = async (word) => {
@@ -108,12 +116,16 @@ export const update_blog_attr = async (attr_form) => {
   return await Axios.request({
     url: store.state.api_obj.detail,
     method: "PUT",
-    params: {},
+    params: {
+      "A-TOKEN": sessionStorage.getItem("A-TOKEN"),
+    },
     data: {
-      type:attr_form.type,
+      updated_type: 0,
       id: attr_form.id,
       title: attr_form.title,
+      type: attr_form.type,
       tag_list: attr_form.tag,
+      article_type: attr_form.article_type,
     }
   });
 };
@@ -121,20 +133,104 @@ export const update_blog_text = async (blog) => {
   return await Axios.request({
     url: store.state.api_obj.detail,
     method: "PUT",
-    params: {},
+    params: {
+      "A-TOKEN": sessionStorage.getItem("A-TOKEN"),
+    },
     data: {
-      type:blog.type,
+      updated_type: 1,
       id: blog.id,
-      text:blog.text,
+      text: blog.text,
     }
   });
 };
-export const delete_blog = async (blog_id) =>{
+export const delete_blog = async (blog_id) => {
   return await Axios.request({
-    url:store.state.api_obj.detail,
-    method:"DELETE",
-    params:{
-      id:blog_id,
+    url: store.state.api_obj.detail,
+    method: "DELETE",
+    params: {
+      id: blog_id,
+      "A-TOKEN": sessionStorage.getItem("A-TOKEN"),
+    },
+  });
+};
+
+export const add_new_blog = async (new_blog) => {
+  return await Axios.request({
+    url: store.state.api_obj.detail,
+    method: "POST",
+    params: {
+      "A-TOKEN": sessionStorage.getItem("A-TOKEN")
+    },
+    data: {
+      title: new_blog.title,
+      type: new_blog.type,
+      tag_list: new_blog.tag,
+      article_type: new_blog.article_type,
+      text: new_blog.text,
+      user: parseInt(sessionStorage.getItem("uid")),
+    }
+  })
+};
+export const update_tag = async (tag) => {
+  return await Axios.request({
+    url: store.state.api_obj.brief_blog_by_tag,
+    method: "PUT",
+    params: {},
+    data: {
+      id: tag.id,
+      name: tag.name,
+      order: tag.order,
+    }
+  });
+};
+export const delete_tag = async (tag_id) => {
+  return await Axios.request({
+    url: store.state.api_obj.brief_blog_by_tag,
+    method: "DELETE",
+    params: {
+      id: tag_id,
+    },
+  });
+};
+export const add_new_tag = async (tag) => {
+  return await Axios.request({
+    url: store.state.api_obj.brief_blog_by_tag,
+    method: "POST",
+    params: {},
+    data: {
+      name: tag.name,
+      order: parseInt(tag.order),
+      user: parseInt(sessionStorage.getItem("uid")),
+    }
+  });
+};
+export const update_type = async (type) => {
+  return await Axios.request({
+    url: store.state.api_obj.type_list,
+    method: "PUT",
+    params: {},
+    data: {
+      id: type.id,
+      name: type.name,
+    }
+  });
+};
+export const delete_type = async (type_id) => {
+  return await Axios.request({
+    url: store.state.api_obj.type_list,
+    method: "DELETE",
+    params: {
+      t_id: type_id,
+    },
+  });
+};
+export const add_new_type = async (type) => {
+  return await Axios.request({
+    url: store.state.api_obj.type_list,
+    method: "POST",
+    params:{},
+    data: {
+      name: type.name,
     },
   });
 };

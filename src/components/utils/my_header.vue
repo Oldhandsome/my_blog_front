@@ -112,16 +112,23 @@
           authenticate_user(_self.form.id, _self.form.email, _self.form.password, _self.form.validate_code).then((
             response) => {
             if (response.data.code == "1009") {
-              sessionStorage.setItem("A-TOKEN", response.data.data);
+              sessionStorage.setItem("A-TOKEN", response.data.data.token);
               sessionStorage.setItem("email", _self.form.email);
+              sessionStorage.setItem("uid", response.data.data.uid)
               _self.$message({
                 message: '亲爱的用户，您好！',
                 type: 'success'
               });
+              _self.login_form_flag = false;
+            }
+            else{
+              _self.$message({
+                message: response.data.message,
+                type: 'warning'
+              });
             }
             _self.confirmButtonText = "确定";
             _self.confirmBusy = false;
-            _self.login_form_flag = false;
           });
         }, 500);
       },

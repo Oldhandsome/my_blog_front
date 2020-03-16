@@ -8,7 +8,9 @@ import my_search from "../components/search.vue"
 import management from "../components/management.vue"
 import blog_management from "../components/child/blog_management.vue"
 import tag_management from "../components/child/tag_management.vue"
+import type_management from "../components/child/type_management.vue"
 import user_info_management from "../components/child/user_info_management.vue"
+
 Vue.use(Router)
 
 export default new Router({
@@ -58,6 +60,12 @@ export default new Router({
       		name:"user_info_management",
       		component:user_info_management
       	},
+        {
+        	path:"/management/type_info",
+        	name:"type_management",
+        	component:type_management
+        },
+        
       ],
     },
   ]

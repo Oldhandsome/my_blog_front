@@ -38,7 +38,7 @@
       </ul>
       <el-footer v-show="blog_list.length < total">
         <div >
-          <i class="el-icon-caret-bottom"></i>
+          <i class="el-icon-arrow-down"></i>
           <span style="cursor: pointer;" @click="get_more">加载更多</span>
         </div>
       </el-footer>
@@ -108,13 +108,20 @@
         this.blog_list = this.blog_list.concat(result);
         this.total = total;
         this.offset = this.offset + result.length;
-        console.log(this.offset)
-        console.log(this.total)
       },
       get_more() {
-        get_search_result(this.keyword, this.offset).then((response) => {
-          this.set_search_result(response.data.data.hits.hits, response.data.data.hits.total.value);
-        });
+        if(this.keyword == null || this.keyword.trim() == ""){
+          this.$message({
+            type: 'error',
+            message: '关键字为空!'
+          });
+        }
+        else{
+          get_search_result(this.keyword, this.offset).then((response) => {
+            this.set_search_result(response.data.data.hits.hits, response.data.data.hits.total.value);
+          });
+        }
+        
       },
       click_blog(blog_id) {
         this.$router.push({

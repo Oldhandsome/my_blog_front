@@ -1,8 +1,16 @@
 <template>
   <div style="padding: 0px 0px 70px 0px;">
     <el-breadcrumb separator-class="el-icon-arrow-right" class="source">
-      <el-breadcrumb-item :to="{ name: 'blog_management' }">个人博客</el-breadcrumb-item>
+      <el-breadcrumb-item>个人博客</el-breadcrumb-item>
       <el-breadcrumb-item>博客列表</el-breadcrumb-item>
+      <el-dropdown style="float: right;" trigger="click">
+        <span class="el-dropdown-link" style="cursor: pointer;">
+          更多操作<i class="el-icon-arrow-down el-icon--right"></i>
+        </span>
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item><span @click="new_blog_dialog = true">新增博客</span></el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
     </el-breadcrumb>
     <el-table :data="visible_blogs" style="width: 100%">
       <el-table-column type="expand">
@@ -16,6 +24,10 @@
             </el-form-item>
             <el-form-item label="访问人数">
               <span>{{ props.row.view_times }}</span>
+            </el-form-item>
+            <el-form-item label="是否公开">
+              <span v-show="props.row.article_type == 1">公开</span>
+              <span v-show="props.row.article_type == 2">私密</span>
             </el-form-item>
             <el-form-item label="点赞人数">
               <span>{{ props.row.likes }}</span>
@@ -48,28 +60,32 @@
     <el-pagination background layout="prev, next" :page-count="total_page" @current-change="current_page">
     </el-pagination>
 
-   <el-dialog title="属性" :visible.sync="attr_dialog" :append-to-body="true" width="30%" :show-close="false"
-      :destroy-on-close="true" >
+    <el-dialog title="属性" :visible.sync="attr_dialog" :append-to-body="true" width="30%" :show-close="false"
+      :destroy-on-close="true" :close-on-click-modal="false">
       <el-form :model="blog_form">
         <el-form-item label="id" :label-width="formLabelWidth">
-          <el-input v-model="blog_form.id" autocomplete="on" :disabled="true"></el-input>
+          <el-input v-model="blog_form.id" :disabled="true"></el-input>
         </el-form-item>
         <el-form-item label="标题" :label-width="formLabelWidth">
-          <el-input v-model="blog_form.title" autocomplete="on"></el-input>
+          <el-input v-model="blog_form.title"></el-input>
+        </el-form-item>
+        <el-form-item label="类型" :label-width="formLabelWidth">
+          <el-select v-model="blog_form.type" placeholder="请选择类型">
+            <el-option v-for="(t,index) in type_list" :key="t.id" :label="t.name" :value="t.id">
+            </el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="标签" :label-width="formLabelWidth">
-          <el-select
-              v-model="blog_form.tag"
-              multiple
-              collapse-tags
-              placeholder="请选择标签">
-              <el-option
-                v-for="(t,index) in tag_list"
-                :key="t.id"
-                :label="t.name"
-                :value="t.id">
-              </el-option>
-            </el-select>
+          <el-select v-model="blog_form.tag" multiple collapse-tags placeholder="请选择标签">
+            <el-option v-for="(t,index) in tag_list" :key="t.id" :label="t.name" :value="t.id">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="状态" :label-width="formLabelWidth">
+          <el-select v-model="blog_form.article_type" placeholder="是否公开">
+            <el-option v-for="item in article_type_list" :key="item.value" :label="item.label" :value="item.value">
+            </el-option>
+          </el-select>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -79,11 +95,48 @@
     </el-dialog>
 
     <el-dialog title="编辑页面" :visible.sync="blog_dialog" :append-to-body="true" :fullscreen="true" :show-close="true"
-        :style="{'max-height':screen_hight}" class="outer"
-        :destroy-on-close="true" >
-          <mavon-editor v-model="blog_form_2.text" ref="md" :code_style="code_style" :ishljs="true"
-           :externalLink="externalLink" :style="{'min-height':screen_hight}" @save="save"/>
-     </el-dialog>
+      :style="{'max-height':screen_hight}" class="outer" :destroy-on-close="true">
+      <mavon-editor v-model="blog_form_2.text" :code_style="code_style" :ishljs="true" :externalLink="externalLink"
+        :style="{'min-height':screen_hight}" @save="save" />
+    </el-dialog>
+
+
+    <el-dialog title="新增博客" :visible.sync="new_blog_dialog" :append-to-body="true" width="30%" :show-close="false"
+      :destroy-on-close="true" :close-on-click-modal="false">
+      <el-form :model="blog_form_3">
+        <el-form-item label="标题" :label-width="formLabelWidth">
+          <el-input v-model="blog_form_3.title" placeholder="请输入标题"></el-input>
+        </el-form-item>
+        <el-form-item label="类型" :label-width="formLabelWidth">
+          <el-select v-model="blog_form_3.type" placeholder="请选择类型">
+            <el-option v-for="(t,index) in type_list" :key="t.id" :label="t.name" :value="t.id">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="标签" :label-width="formLabelWidth">
+          <el-select v-model="blog_form_3.tag" multiple collapse-tags placeholder="请选择标签">
+            <el-option v-for="(t,index) in tag_list" :key="t.id" :label="t.name" :value="t.id">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="类型" :label-width="formLabelWidth">
+          <el-select v-model="blog_form_3.article_type" placeholder="是否公开">
+            <el-option v-for="item in article_type_list" :key="item.value" :label="item.label" :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
+      </el-form>
+
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="new_blog_dialog = false">取 消</el-button>
+        <el-button type="primary" @click="new_blog_text = true">添加文本</el-button>
+      </div>
+    </el-dialog>
+    <el-dialog title="编辑页面" :visible.sync="new_blog_text" :append-to-body="true" :fullscreen="true" :show-close="true"
+      :style="{'max-height':screen_hight}" class="outer" :close-on-click-modal="false" :destroy-on-close="true">
+      <mavon-editor v-model="blog_form_3.text" :code_style="code_style" :ishljs="true" :externalLink="externalLink"
+        :style="{'min-height':screen_hight}" @save="handle_new_blog_submit" />
+    </el-dialog>
   </div>
 </template>
 
@@ -96,6 +149,8 @@
     get_detail,
     update_blog_text,
     delete_blog,
+    get_type_list,
+    add_new_blog,
   } from "../../restful/index.js"
   export default {
     name: "blog_management",
@@ -103,24 +158,44 @@
       return {
         blog_tables: [],
         visible_blogs: [],
-        tag_list:[],
+        tag_list: [],
+        type_list: [],
+        article_type_list: [{
+          "value": 1,
+          "label": "公开"
+        }, {
+          "value": 2,
+          "label": "私密"
+        }],
         total_page: null,
 
         attr_dialog: false,
         formLabelWidth: '80px',
-        confirmButtonText:"确定",
-        confirmBusy:false,
-        blog_form:{
-          index:"",
-          id:"",
-          title:"",
-          tag:[],
+        confirmButtonText: "确定",
+        confirmBusy: false,
+        blog_form: {
+          index: "",
+          id: "",
+          title: "",
+          type: 0,
+          tag: [],
+          article_type: 0,
         },
 
-        blog_dialog:false,
+        blog_dialog: false,
         code_style: 'atom-one-dark',
-        blog_form_2:{
-          id:"",
+        blog_form_2: {
+          id: "",
+          text: "",
+        },
+
+        new_blog_dialog: false,
+        new_blog_text: false,
+        blog_form_3: {
+          title: "",
+          type: null,
+          tag: [],
+          article_type: null,
           text: "",
         },
         externalLink: {
@@ -159,6 +234,9 @@
       get_tags().then((response) => {
         this.tag_list = this.tag_list.concat(response.data.data);
       });
+      get_type_list().then((response) => {
+        this.type_list = response.data.data;
+      });
     },
     methods: {
       current_page(cur_page) {
@@ -181,21 +259,24 @@
         this.blog_form.index = index;
         this.blog_form.id = row.id;
         this.blog_form.title = row.title;
-        this.blog_form.tag = []
-        for(let i = 0; i < row.tag.length; i++){
+        this.blog_form.article_type = row.article_type;
+        this.blog_form.type = row.type;
+        this.blog_form.tag = [];
+        for (let i = 0; i < row.tag.length; i++) {
           this.blog_form.tag.push(row.tag[i].id);
         }
       },
-      handle_attr_submit(){
+      handle_attr_submit() {
         this.confirmButtonText = "请求中";
         this.confirmBusy = true;
-        this.blog_form.type = 0;
         update_blog_attr(this.blog_form).then((response) => {
           let index = this.blog_form.index;
           this.blog_tables[index].title = this.blog_form.title;
+          this.blog_tables[index].type = this.blog_form.type;
+          this.blog_tables[index].article_type = this.blog_form.article_type;
           // console.log("原本的", this.blog_tables[index].tag);
           this.blog_tables[index].tag = []
-          for(let i = 0 ; i < this.blog_form.tag.length; i++){
+          for (let i = 0; i < this.blog_form.tag.length; i++) {
             this.blog_tables[index].tag.push(this.tag_list[this.blog_form.tag[i] - 1])
           }
           // console.log("现在应该有的", this.blog_form.tag);
@@ -211,16 +292,15 @@
       },
 
       handle_text(index, row) {
-        get_detail(row.id).then((response) =>{
+        get_detail(row.id).then((response) => {
           this.blog_form_2.text = response.data.data.text;
           this.blog_form_2.id = response.data.data.id;
           this.blog_dialog = true;
         });
       },
-      save(value,render){
-        this.blog_form_2.type = 1;
+      save(value, render) {
         update_blog_text(this.blog_form_2).then((response) => {
-          if(response.data.data == null || response.data.data == ""){
+          if (response.data.data == null || response.data.data == "") {
             this.$message({
               type: 'success',
               message: '保存成功!'
@@ -230,16 +310,51 @@
       },
 
       handle_Delete(index, row) {
-        delete_blog(row.id).then((response) => {
-          if(response.data.data == null || response.data.data == ""){
-            this.$message({
-              type: 'success',
-              message: '已改为隐藏博客!'
-            });
-          }
+        console.log(index);
+        console.log(row);
+        let _self = this;
+        this.$confirm('将博客取消公开, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          delete_blog(row.id).then((response) => {
+            if (response.data.code == "1000") {
+              _self.$message({
+                type: 'success',
+                message: '博客已取消公开!'
+              });
+              _self.blog_list[index].article_type = 2
+
+            }
+          });
+        }).catch(() => {
+          _self.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
         });
       },
 
+      handle_new_blog_submit() {
+        add_new_blog(this.blog_form_3).then((response) => {
+          if (response.data.code == "1000") {
+            this.$message({
+              type: 'success',
+              message: '添加成功'
+            });
+          }
+          this.blog_form_3 = {
+              title: "",
+              type: null,
+              tag: [],
+              article_type: null,
+              text: "",
+            },
+          this.new_blog_text = false;
+          this.new_blog_dialog = false;
+        });
+      }
     },
   }
 </script>
@@ -266,7 +381,7 @@
     width: 50%;
   }
 
-  .el-dialog .header{
+  .el-dialog .header {
     padding: 0px;
   }
 
