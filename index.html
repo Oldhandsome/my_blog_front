@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>vue_02</title>
 	<link rel="stylesheet" type="text/css" href="./static/css/self-defined.css"/>
+  <link rel="shortcut icon" type="image/x-icon" href="./static/images/favicon.ico" />
   </head>
-  <!-- <body style="overflow:hidden"> -->
 	<div id="stars" >
 	  <div class="star" style="top: 0px;left: 500px;"></div>
 	</div>
@@ -28,10 +28,10 @@
 		}
 		var star = document.getElementsByClassName('star')
 		  // 给流星添加动画延时
-		  for (var i = 0, len = star.length; i < len; i++)
-		  {
-		　　  star[i].style.animationDelay = i % 6 == 0 ? '0s' : i * 0.8 + 's'
-		  }
+    for (var i = 0, len = star.length; i < len; i++)
+    {
+  　　  star[i].style.animationDelay = i % 6 == 0 ? '0s' : i * 0.8 + 's'
+    }
 	</script>
   </body>
 </html>

@@ -156,6 +156,7 @@
               message: "标签添加成功"
             });
           }
+          this.tag_dialog_2 = false;
           this.tag_form_2 = {
               name: null,
               order: null,
@@ -173,6 +174,5 @@
   .source {
     padding: 24px;
     border-bottom: solid 1px #e6e6e6;
-    ;
   }
 </style>

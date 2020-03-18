@@ -138,9 +138,7 @@
       handle_type_add() {
         this.confirmBusy = true;
         this.confirmButtonText = "执行中";
-        console.log(this.type_form_2);
         add_new_type(this.type_form_2).then((response) => {
-          console.log(response.data);
           if (response.data.code == "1000") {
             if (response.data.code == "1000") {
               this.type_list.push({
@@ -170,6 +168,5 @@
   .source {
     padding: 24px;
     border-bottom: solid 1px #e6e6e6;
-    ;
   }
 </style>

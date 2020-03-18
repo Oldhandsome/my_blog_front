@@ -149,6 +149,7 @@
             type: 'warning'
           }).then(() => {
             sessionStorage.removeItem("A-TOKEN")
+            sessionStorage.removeItem("uid")
             this.$message({
               type: 'success',
               message: '成功退出!'

@@ -12,7 +12,7 @@ export default new Vuex.Store({
 			taglist:"/app01/tags/",
 			brief_blog_by_tag:"/app01/tag/",
       search_result:"/app01/search/",
-      authentication:"/app01/authenticate/",
+      user:"/app01/user/",
       validation_code:"/app01/get_validate_code/",
 		},
 	},

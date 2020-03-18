@@ -12,7 +12,7 @@
         </el-dropdown-menu>
       </el-dropdown>
     </el-breadcrumb>
-    <el-table :data="visible_blogs" style="width: 100%">
+    <el-table :data="blog_tables.slice(offset,offset+10)" style="width: 100%">
       <el-table-column type="expand">
         <template slot-scope="props">
           <el-form label-position="left" inline class="demo-table-expand">
@@ -57,7 +57,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <el-pagination background layout="prev, next" :page-count="total_page" @current-change="current_page">
+    <el-pagination background layout="prev, next" :total="total_num" @current-change="current_page">
     </el-pagination>
 
     <el-dialog title="属性" :visible.sync="attr_dialog" :append-to-body="true" width="30%" :show-close="false"
@@ -157,7 +157,7 @@
     data() {
       return {
         blog_tables: [],
-        visible_blogs: [],
+        offset: 0,
         tag_list: [],
         type_list: [],
         article_type_list: [{
@@ -167,7 +167,7 @@
           "value": 2,
           "label": "私密"
         }],
-        total_page: null,
+        total_num: null,
 
         attr_dialog: false,
         formLabelWidth: '80px',
@@ -226,10 +226,9 @@
     created() {
       getBlogList(0, 10).then((response) => {
         this.blog_tables = this.blog_tables.concat(response.data.data);
-        this.visible_blogs = this.blog_tables.slice(0, 10);
       });
       getBlogTotal().then((response) => {
-        this.total_page = Math.ceil(parseInt(response.data.data) / 10);
+        this.total_num = parseInt(response.data.data);
       });
       get_tags().then((response) => {
         this.tag_list = this.tag_list.concat(response.data.data);
@@ -242,13 +241,13 @@
       current_page(cur_page) {
         // 第一种情况 请求开始的索引位置小于blog_tables，但不再请求
         if ((cur_page - 1) * 10 < this.blog_tables.length) {
-          this.visible_blogs = this.blog_tables.slice((cur_page - 1) * 10, (cur_page - 1) * 10 + 10);
+          this.offset = (cur_page - 1) * 10
         }
         //第二种情况 请求开始的索引位置大于blog_tables，请求
         else if ((cur_page - 1) * 10 >= this.blog_tables.length) {
           getBlogList((cur_page - 1) * 10, 10).then((response) => {
             this.blog_tables = this.blog_tables.concat(response.data.data);
-            this.visible_blogs = this.blog_tables.slice((cur_page - 1) * 10, (cur_page - 1) * 10 + 10);
+            this.offset = (cur_page - 1) * 10;
           });
         }
       },
@@ -270,14 +269,17 @@
         this.confirmButtonText = "请求中";
         this.confirmBusy = true;
         update_blog_attr(this.blog_form).then((response) => {
-          let index = this.blog_form.index;
+          let index = this.blog_form.index + this.offset;
           this.blog_tables[index].title = this.blog_form.title;
           this.blog_tables[index].type = this.blog_form.type;
           this.blog_tables[index].article_type = this.blog_form.article_type;
+
           // console.log("原本的", this.blog_tables[index].tag);
           this.blog_tables[index].tag = []
-          for (let i = 0; i < this.blog_form.tag.length; i++) {
-            this.blog_tables[index].tag.push(this.tag_list[this.blog_form.tag[i] - 1])
+          for (let i = 0; i < this.tag_list.length; i++) {
+            if (this.blog_form.tag.indexOf(this.tag_list[i].id) != -1) {
+              this.blog_tables[index].tag.push(this.tag_list[i]);
+            }
           }
           // console.log("现在应该有的", this.blog_form.tag);
           // console.log("请求成功之后的",this.blog_tables[index].tag);
@@ -310,8 +312,6 @@
       },
 
       handle_Delete(index, row) {
-        console.log(index);
-        console.log(row);
         let _self = this;
         this.$confirm('将博客取消公开, 是否继续?', '提示', {
           confirmButtonText: '确定',
@@ -324,8 +324,7 @@
                 type: 'success',
                 message: '博客已取消公开!'
               });
-              _self.blog_list[index].article_type = 2
-
+              _self.blog_tables[this.offset + index].article_type = 2
             }
           });
         }).catch(() => {
@@ -343,7 +342,26 @@
               type: 'success',
               message: '添加成功'
             });
-          }
+            this.total_num += 1;
+            if(this.blog_tables.length + 1 >= this.total_num){
+              let arr = [];
+              for (let i = 0; i < this.tag_list.length; i++) {
+                if (this.blog_form_3.tag.indexOf(this.tag_list[i].id) != -1) {
+                  arr.push(this.tag_list[i]);
+                }
+              }
+              this.blog_tables.push({
+                "id": response.data.data,
+                "title": this.blog_form_3.title,
+                "type": this.blog_form_3.type,
+                "view_times": 0,
+                "likes": 0,
+                "updated_time": new Date().toISOString().substring(0, 10),
+                "article_type": this.blog_form_3.article_type,
+                "tag": arr,
+              });
+            }
+          };
           this.blog_form_3 = {
               title: "",
               type: null,
@@ -351,9 +369,27 @@
               article_type: null,
               text: "",
             },
-          this.new_blog_text = false;
+            this.new_blog_text = false;
           this.new_blog_dialog = false;
         });
+      },
+
+      $imgAdd(pos, $file) {
+        // 第一步.将图片上传到服务器.
+        var formdata = new FormData();
+        formdata.append('image', $file);
+        axios({
+          url: 'server url',
+          method: 'post',
+          data: formdata,
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          },
+        }).then((url) => {
+          // 第二步.将返回的url替换到文本原位置![...](0) -> ![...](url)
+          // $vm.$img2Url 详情见本页末尾
+          $vm.$img2Url(pos, url);
+        })
       }
     },
   }
@@ -363,7 +399,6 @@
   .source {
     padding: 24px;
     border-bottom: solid 1px #e6e6e6;
-    ;
   }
 
   .demo-table-expand {

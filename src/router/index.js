@@ -11,6 +11,10 @@ import tag_management from "../components/child/tag_management.vue"
 import type_management from "../components/child/type_management.vue"
 import user_info_management from "../components/child/user_info_management.vue"
 
+const originalPush = Router.prototype.push
+Router.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err)
+}
 Vue.use(Router)
 
 export default new Router({

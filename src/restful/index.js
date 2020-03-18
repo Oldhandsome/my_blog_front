@@ -100,7 +100,7 @@ export const get_validation_code = async () => {
 };
 export const authenticate_user = async (id, email, password, validate_code) => {
   return await Axios.request({
-    url: store.state.api_obj.authentication,
+    url: store.state.api_obj.user,
     method: "POST",
     params: {},
     data: {
@@ -175,7 +175,9 @@ export const update_tag = async (tag) => {
   return await Axios.request({
     url: store.state.api_obj.brief_blog_by_tag,
     method: "PUT",
-    params: {},
+    params: {
+      "A-TOKEN": sessionStorage.getItem("A-TOKEN")
+    },
     data: {
       id: tag.id,
       name: tag.name,
@@ -189,6 +191,7 @@ export const delete_tag = async (tag_id) => {
     method: "DELETE",
     params: {
       id: tag_id,
+      "A-TOKEN": sessionStorage.getItem("A-TOKEN")
     },
   });
 };
@@ -196,7 +199,9 @@ export const add_new_tag = async (tag) => {
   return await Axios.request({
     url: store.state.api_obj.brief_blog_by_tag,
     method: "POST",
-    params: {},
+    params: {
+      "A-TOKEN": sessionStorage.getItem("A-TOKEN")
+    },
     data: {
       name: tag.name,
       order: parseInt(tag.order),
@@ -208,7 +213,9 @@ export const update_type = async (type) => {
   return await Axios.request({
     url: store.state.api_obj.type_list,
     method: "PUT",
-    params: {},
+    params: {
+      "A-TOKEN": sessionStorage.getItem("A-TOKEN")
+    },
     data: {
       id: type.id,
       name: type.name,
@@ -221,6 +228,7 @@ export const delete_type = async (type_id) => {
     method: "DELETE",
     params: {
       t_id: type_id,
+      "A-TOKEN": sessionStorage.getItem("A-TOKEN")
     },
   });
 };
@@ -228,9 +236,37 @@ export const add_new_type = async (type) => {
   return await Axios.request({
     url: store.state.api_obj.type_list,
     method: "POST",
-    params:{},
+    params:{
+      "A-TOKEN": sessionStorage.getItem("A-TOKEN")
+    },
     data: {
       name: type.name,
     },
   });
+};
+export const get_user_info = async (email) =>{
+  return await Axios.request({
+    url:store.state.api_obj.user,
+    method:"GET",
+    params:{
+      email:sessionStorage.getItem("email")
+    },
+  });
+};
+export const update_user_info = async (user) => {
+  return await Axios.request({
+    url:store.state.api_obj.user,
+    method:"PUT",
+    params:{
+      "A-TOKEN":sessionStorage.getItem("A-TOKEN")
+    },
+    data:{
+      email:sessionStorage.getItem("email"),
+      username:user.username,
+      self_introduce:user.self_introduce,
+    },
+  })
+};
+export const upload_blog_illustration = async (file) => {
+
 };
