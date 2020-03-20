@@ -42,7 +42,7 @@
 
 - 博客详情页（detail.vue）
 
-  调用highlight.js和marked组件，现实博客的正文内容。
+  调用highlight.js和marked组件，显示博客的正文内容。
 
 - 搜索博客页面（search.vue)
 
