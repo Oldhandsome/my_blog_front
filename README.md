@@ -1,4 +1,5 @@
 # 我的博客->前端项目
+前端是我参考另一个人的博客（感觉很简洁）
 
 - 文件目录结构
 
@@ -13,26 +14,26 @@
 ——|——|——|——|——| user_info_management.vue # management的子组件 用户信息管理组件
 ——|——|——|——|——| util
 ——|——|——|——|——|——| blogs_to_tag.vue  	# 将标签页中的一个标签以及所显示的博客进行了组件化，用于查看属于同一个标签下的全部博客。
-——|——|——|——|——|——| my_header.vue		# 将页头组件化，方便其他组件都能调用该页头。
-——|——|——|——| blogs.vue 					# 博客浏览页面
-——|——|——|——| deatil.vue 				# 博客具体详情页
-——|——|——|——| homepage.vue				# 首页
-——|——|——|——| management.vue				# 管理页面（融合了上述的四个子组件）
-——|——|——|——| search.vue					# 搜索页面
-——|——|——|——| tag.vue 					# 标签页
+——|——|——|——|——|——| my_header.vue		  # 将页头组件化，方便其他组件都能调用该页头。
+——|——|——|——| blogs.vue                # 博客浏览页面
+——|——|——|——| deatil.vue 				      # 博客具体详情页
+——|——|——|——| homepage.vue				      # 首页
+——|——|——|——| management.vue				    # 管理页面（融合了上述的四个子组件）
+——|——|——|——| search.vue					      # 搜索页面
+——|——|——|——| tag.vue 					        # 标签页
 ——|——|——| restful
-——|——|——|——| index.js					# Axios各种请求的方法 
+——|——|——|——| index.js					        # Axios各种请求的方法 
 ——|——|——| router
-——|——|——|——| index.js					# vue组件之间的跳转页面
+——|——|——|——| index.js					        # vue组件之间的跳转页面
 ——|——|——| store
-——|——|——|——| index.js 					# 存放后端API接口
-——|——|——| App.vue 						# app.vue
-——|——|——| main.js						# main.js
+——|——|——|——| index.js 					      # 存放后端API接口
+——|——|——| App.vue 						        # app.vue
+——|——|——| main.js						          # main.js
 ——|——| static
-——|——|——| css							# 存放公用的css
+——|——|——| css							            # 存放公用的css
 ——|——|——| images						
-——|——|——| js
-——|——| index.html 						# 单页面应用之index.html
+——|——|——| js                          # 存放公用的css
+——|——| index.html 						        # 单页面应用之index.html
 ```
 
 - 博客浏览页面 （blogs.vue）
@@ -58,3 +59,4 @@
 - 缺点
 
   由于对前端的知识不是很了解，没有将项目做成响应式的。
+  
