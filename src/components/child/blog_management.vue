@@ -96,31 +96,31 @@
 
     <el-dialog title="编辑页面" :visible.sync="blog_dialog" :append-to-body="true" :fullscreen="true" :show-close="true"
       :style="{'max-height':screen_hight}" class="outer" :destroy-on-close="true">
-      <mavon-editor v-model="blog_form_2.text" :code_style="code_style" :ishljs="true" :externalLink="externalLink"
-        :style="{'min-height':screen_hight}" @save="save" />
+      <mavon-editor v-model="blog_form_2.text"  :ishljs="true" :externalLink="externalLink"
+        :style="{'min-height':screen_hight}" @save="save"/>
     </el-dialog>
 
 
     <el-dialog title="新增博客" :visible.sync="new_blog_dialog" :append-to-body="true" width="30%" :show-close="false"
       :destroy-on-close="true" :close-on-click-modal="false">
-      <el-form :model="blog_form_3">
+      <el-form :model="blog_form_2">
         <el-form-item label="标题" :label-width="formLabelWidth">
-          <el-input v-model="blog_form_3.title" placeholder="请输入标题"></el-input>
+          <el-input v-model="blog_form_2.title" placeholder="请输入标题"></el-input>
         </el-form-item>
         <el-form-item label="类型" :label-width="formLabelWidth">
-          <el-select v-model="blog_form_3.type" placeholder="请选择类型">
+          <el-select v-model="blog_form_2.type" placeholder="请选择类型">
             <el-option v-for="(t,index) in type_list" :key="t.id" :label="t.name" :value="t.id">
             </el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="标签" :label-width="formLabelWidth">
-          <el-select v-model="blog_form_3.tag" multiple collapse-tags placeholder="请选择标签">
+          <el-select v-model="blog_form_2.tag" multiple collapse-tags placeholder="请选择标签">
             <el-option v-for="(t,index) in tag_list" :key="t.id" :label="t.name" :value="t.id">
             </el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="类型" :label-width="formLabelWidth">
-          <el-select v-model="blog_form_3.article_type" placeholder="是否公开">
+          <el-select v-model="blog_form_2.article_type" placeholder="是否公开">
             <el-option v-for="item in article_type_list" :key="item.value" :label="item.label" :value="item.value">
             </el-option>
           </el-select>
@@ -179,19 +179,17 @@
         },
 
         blog_dialog: false,
-        code_style: 'atom-one-dark',
         blog_form_2: {
           id: "",
           text: "",
-        },
-
-        new_blog_dialog: false,
-        blog_form_3: {
           title: "",
           type: null,
           tag: [],
           article_type: null,
         },
+
+        new_blog_dialog: false,
+
         externalLink: {
           markdown_css: function() {
             // 这是你的markdown css文件路径
@@ -303,6 +301,7 @@
             });
           }
         });
+        this.$data.blog_form_2 = this.$options.data().blog_form_2;
       },
 
       handle_Delete(index, row) {
@@ -331,7 +330,7 @@
       handle_new_blog_attr(){
         this.confirmButtonText = "请求中";
         this.confirmBusy = true;
-        add_new_blog(this.blog_form_3).then((response) => {
+        add_new_blog(this.blog_form_2).then((response) => {
           if (response.data.code == "1000") {
             this.$message({
               type: 'success',
@@ -341,27 +340,25 @@
             if (this.blog_tables.length + 1 >= this.total_num) {
               let arr = [];
               for (let i = 0; i < this.tag_list.length; i++) {
-                if (this.blog_form_3.tag.indexOf(this.tag_list[i].id) != -1) {
+                if (this.blog_form_2.tag.indexOf(this.tag_list[i].id) != -1) {
                   arr.push(this.tag_list[i]);
                 }
               }
               this.blog_tables.push({
                 "id": response.data.data,
-                "title": this.blog_form_3.title,
-                "type": this.blog_form_3.type,
+                "title": this.blog_form_2.title,
+                "type": this.blog_form_2.type,
                 "view_times": 0,
                 "likes": 0,
                 "updated_time": new Date().toISOString().substring(0, 10),
-                "article_type": this.blog_form_3.article_type,
+                "article_type": this.blog_form_2.article_type,
                 "tag": arr,
               });
             }
             this.blog_form_2.id = response.data.data;
-            this.blog_form_2.text = ""
+            this.blog_form_2.text = "";
             this.blog_dialog = true;
           };
-          // 将表单的数据全部初始化
-          this.$data.blog_form_3 = this.$options.data().blog_form_3;
           this.new_blog_dialog = false;
         });
       },
