@@ -16,7 +16,7 @@
               <div class="small-size top-node" :style="{'background-color':color_list[index%8]}"></div>
               <div class="wrapper">
                 <div class="content">
-                  <span class="time_span">{{blog.created_time}}</span>
+                  <span class="time_span">{{blog.updated_time}}</span>
                   &nbsp;
                   <span class="blog" @click="click_blog(blog.id);">{{blog.title}}</span>
                 </div>
