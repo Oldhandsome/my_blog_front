@@ -14,6 +14,7 @@ export default new Vuex.Store({
       search_result:"/app01/search/",
       user:"/app01/user/",
       validation_code:"/app01/get_validate_code/",
+      blog_illustration:"/app01/blog/img/",
 		},
 	},
 })

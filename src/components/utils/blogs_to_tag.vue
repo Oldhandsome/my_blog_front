@@ -3,7 +3,7 @@
 		<transition-group name="list" tag="div">
 		    <li v-for="(blog,index) in blogs" :key="blog.id">
 		    	<p>
-		    		<span class="time_span">{{blog.created_time}}</span>
+		    		<span class="time_span">{{blog.updated_time}}</span>
 		    		&nbsp;&nbsp;&nbsp;
 		    		<span  class="blog" @click="click_blog(blog.id);">{{blog.title}}</span>
 		    	</p>

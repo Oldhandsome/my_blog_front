@@ -135,7 +135,7 @@
     <el-dialog title="编辑页面" :visible.sync="new_blog_text" :append-to-body="true" :fullscreen="true" :show-close="true"
       :style="{'max-height':screen_hight}" class="outer" :close-on-click-modal="false" :destroy-on-close="true">
       <mavon-editor v-model="blog_form_3.text" :code_style="code_style" :ishljs="true" :externalLink="externalLink"
-        :style="{'min-height':screen_hight}" @save="handle_new_blog_submit" />
+        :style="{'min-height':screen_hight}" @save="handle_new_blog_submit" @imgAdd="$imgAdd" ref=md></mavon-editor>
     </el-dialog>
   </div>
 </template>
@@ -151,6 +151,7 @@
     delete_blog,
     get_type_list,
     add_new_blog,
+    upload_blog_illustration,
   } from "../../restful/index.js"
   export default {
     name: "blog_management",
@@ -343,7 +344,7 @@
               message: '添加成功'
             });
             this.total_num += 1;
-            if(this.blog_tables.length + 1 >= this.total_num){
+            if (this.blog_tables.length + 1 >= this.total_num) {
               let arr = [];
               for (let i = 0; i < this.tag_list.length; i++) {
                 if (this.blog_form_3.tag.indexOf(this.tag_list[i].id) != -1) {
@@ -377,20 +378,12 @@
       $imgAdd(pos, $file) {
         // 第一步.将图片上传到服务器.
         var formdata = new FormData();
-        formdata.append('image', $file);
-        axios({
-          url: 'server url',
-          method: 'post',
-          data: formdata,
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          },
-        }).then((url) => {
-          // 第二步.将返回的url替换到文本原位置![...](0) -> ![...](url)
-          // $vm.$img2Url 详情见本页末尾
-          $vm.$img2Url(pos, url);
-        })
-      }
+        formdata.append('img', $file);
+        upload_blog_illustration(formdata).then((response) =>{
+          this.$refs.md.$img2Url(pos, response.data.data.img_path);
+        });
+      },
+
     },
   }
 </script>

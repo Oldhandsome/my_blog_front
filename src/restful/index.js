@@ -267,6 +267,14 @@ export const update_user_info = async (user) => {
     },
   })
 };
-export const upload_blog_illustration = async (file) => {
-
+export const upload_blog_illustration = async (img) => {
+    return await Axios.request({
+      url:store.state.api_obj.blog_illustration,
+      method:"POST",
+      headers: { 'Content-Type': 'multipart/form-data' },
+      params:{
+        "A-TOKEN":sessionStorage.getItem("A-TOKEN")
+      },
+      data:img,
+    })
 };
