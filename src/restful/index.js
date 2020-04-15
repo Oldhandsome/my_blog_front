@@ -166,7 +166,7 @@ export const add_new_blog = async (new_blog) => {
       type: new_blog.type,
       tag_list: new_blog.tag,
       article_type: new_blog.article_type,
-      text: new_blog.text,
+      // text: new_blog.text,
       user: parseInt(sessionStorage.getItem("uid")),
     }
   })

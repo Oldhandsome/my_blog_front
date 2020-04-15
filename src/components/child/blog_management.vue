@@ -129,13 +129,8 @@
 
       <div slot="footer" class="dialog-footer">
         <el-button @click="new_blog_dialog = false">取 消</el-button>
-        <el-button type="primary" @click="new_blog_text = true">添加文本</el-button>
+        <el-button type="primary" @click="handle_new_blog_attr">添加文本</el-button>
       </div>
-    </el-dialog>
-    <el-dialog title="编辑页面" :visible.sync="new_blog_text" :append-to-body="true" :fullscreen="true" :show-close="true"
-      :style="{'max-height':screen_hight}" class="outer" :close-on-click-modal="false" :destroy-on-close="true">
-      <mavon-editor v-model="blog_form_3.text" :code_style="code_style" :ishljs="true" :externalLink="externalLink"
-        :style="{'min-height':screen_hight}" @save="handle_new_blog_submit" @imgAdd="$imgAdd" ref=md></mavon-editor>
     </el-dialog>
   </div>
 </template>
@@ -191,13 +186,11 @@
         },
 
         new_blog_dialog: false,
-        new_blog_text: false,
         blog_form_3: {
           title: "",
           type: null,
           tag: [],
           article_type: null,
-          text: "",
         },
         externalLink: {
           markdown_css: function() {
@@ -335,8 +328,9 @@
           });
         });
       },
-
-      handle_new_blog_submit() {
+      handle_new_blog_attr(){
+        this.confirmButtonText = "请求中";
+        this.confirmBusy = true;
         add_new_blog(this.blog_form_3).then((response) => {
           if (response.data.code == "1000") {
             this.$message({
@@ -362,15 +356,12 @@
                 "tag": arr,
               });
             }
+            this.blog_form_2.id = response.data.data;
+            this.blog_form_2.text = ""
+            this.blog_dialog = true;
           };
-          this.blog_form_3 = {
-              title: "",
-              type: null,
-              tag: [],
-              article_type: null,
-              text: "",
-            },
-            this.new_blog_text = false;
+          // 将表单的数据全部初始化
+          this.$data.blog_form_3 = this.$options.data().blog_form_3;
           this.new_blog_dialog = false;
         });
       },
@@ -380,6 +371,7 @@
         var formdata = new FormData();
         formdata.append('img', $file);
         upload_blog_illustration(formdata).then((response) =>{
+          // 第二部 替换
           this.$refs.md.$img2Url(pos, response.data.data.img_path);
         });
       },
