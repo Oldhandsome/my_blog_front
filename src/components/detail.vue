@@ -16,14 +16,12 @@
           <span>posted By&nbsp;{{blog.username}}&nbsp;at&nbsp;{{blog.created_time}}&nbsp;</span>
         </p>
         <p style="align:right;margin: 5px 0 5px 0;text-align: right;">
-          <el-tag v-for="(t,index) in blog.tag" :key="t.id" effect="light" style="margin-right: 5px;">
-            {{t.name}}
-          </el-tag>
+          <label style="margin-right: 5px;">标签:</label>
+          <span v-for="(t, index) in blog.tag" :key="t.id" style="margin-right: 5px;">#{{t.name}}</span>
         </p>
         <p style="align:right;margin: 5px 0 5px 0;text-align: right;">
-          <el-tag effect="light" style="margin-right: 5px;">
-            <i class="el-icon-view"></i>&nbsp;{{blog.view_times}}
-          </el-tag>
+
+          <span  style="margin-right: 5px;">共浏览&nbsp;&nbsp;{{blog.view_times}}&nbsp;&nbsp;次</span>
         </p>
         <div name='comments'>
         </div>

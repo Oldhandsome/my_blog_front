@@ -3,35 +3,11 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>vue_02</title>
+    <title>welcome to my blog</title>
 	<link rel="stylesheet" type="text/css" href="./static/css/self-defined.css"/>
   <link rel="shortcut icon" type="image/x-icon" href="./static/images/favicon.ico" />
   </head>
-	<div id="stars" >
-	  <div class="star" style="top: 0px;left: 500px;"></div>
-	</div>
+  <body>
     <div id="app"></div>
-	<script type="text/javascript">
-		var stars = document.getElementById('stars')
-		// js随机生成流星
-		for (var j=0;j<30;j++) {
-		  var newStar = document.createElement("div")
-		  newStar.className = "star"
-		  newStar.style.top = randomDistance(500, -100) + 'px'
-		  newStar.style.left = randomDistance(1300, 300) + 'px'
-		  stars.appendChild(newStar)
-		}
-		// 封装随机数方法
-		function randomDistance (max, min) {
-		  var distance = Math.floor(Math.random() * (max - min + 1) + min)
-		  return distance
-		}
-		var star = document.getElementsByClassName('star')
-		  // 给流星添加动画延时
-    for (var i = 0, len = star.length; i < len; i++)
-    {
-  　　  star[i].style.animationDelay = i % 6 == 0 ? '0s' : i * 0.8 + 's'
-    }
-	</script>
   </body>
 </html>

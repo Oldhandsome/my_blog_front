@@ -121,7 +121,7 @@
             this.set_search_result(response.data.data.hits.hits, response.data.data.hits.total.value);
           });
         }
-        
+
       },
       click_blog(blog_id) {
         this.$router.push({

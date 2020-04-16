@@ -279,7 +279,10 @@
 
       handle_text(index, row) {
         get_detail(row.id).then((response) => {
-          this.blog_form.text = response.data.data.text;
+          if(response.data.data.text == null || response.data.data.text == "")
+            this.blog_form.text = ""
+          else
+            this.blog_form.text = response.data.data.text
           this.blog_form.id = response.data.data.id;
           this.blog_dialog = true;
         });
