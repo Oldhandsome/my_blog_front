@@ -61,7 +61,7 @@
     </el-pagination>
 
     <el-dialog title="属性" :visible.sync="attr_dialog" :append-to-body="true" width="30%" :show-close="false"
-      :destroy-on-close="true" :close-on-click-modal="false"  @close="close_dialog()">
+      :destroy-on-close="true" :close-on-click-modal="false" @close="close_dialog()">
       <el-form :model="blog_form">
         <el-form-item label="id" :label-width="formLabelWidth">
           <el-input v-model="blog_form.id" :disabled="true"></el-input>
@@ -96,8 +96,8 @@
 
     <el-dialog title="编辑页面" :visible.sync="blog_dialog" :append-to-body="true" :fullscreen="true" :show-close="true"
       :style="{'max-height':screen_hight}" class="outer" :destroy-on-close="true" @close="close_dialog()">
-      <mavon-editor v-model="blog_form.text"  :ishljs="true" :externalLink="externalLink"
-        :style="{'min-height':screen_hight}" @save="save"/>
+      <mavon-editor v-model="blog_form.text" :ishljs="true" :externalLink="externalLink" :style="{'min-height':screen_hight}"
+        @save="save" />
     </el-dialog>
 
 
@@ -294,7 +294,7 @@
           }
         });
       },
-      close_dialog(){
+      close_dialog() {
         this.$data.blog_form = this.$options.data().blog_form;
       },
 
@@ -321,7 +321,7 @@
           });
         });
       },
-      handle_new_blog_attr(){
+      handle_new_blog_attr() {
         this.confirmButtonText = "请求中";
         this.confirmBusy = true;
         add_new_blog(this.blog_form).then((response) => {
@@ -361,7 +361,7 @@
         // 第一步.将图片上传到服务器.
         var formdata = new FormData();
         formdata.append('img', $file);
-        upload_blog_illustration(formdata).then((response) =>{
+        upload_blog_illustration(formdata).then((response) => {
           // 第二部 替换
           this.$refs.md.$img2Url(pos, response.data.data.img_path);
         });
