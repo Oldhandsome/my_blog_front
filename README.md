@@ -59,3 +59,5 @@
 - 缺点
 
   由于对前端的知识不是很了解，没有将项目做成响应式的。
+  
+  [具体截图](https://github.com/Oldhandsome/my_blog_front/tree/master/screenshot)
