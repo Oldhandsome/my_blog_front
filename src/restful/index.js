@@ -278,3 +278,15 @@ export const upload_blog_illustration = async (img) => {
       data:img,
     })
 };
+export const delete_blog_illustration = async (img_path) =>{
+  return await Axios.request({
+    url:store.state.api_obj.blog_illustration,
+    method:"DELETE",
+    params:{
+      "A-TOKEN":sessionStorage.getItem("A-TOKEN"),
+    },
+    data:{
+      "img_path":img_path,
+    }
+  })
+}

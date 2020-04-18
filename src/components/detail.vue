@@ -9,15 +9,17 @@
         <div id="cateloglist" class="k-catelog-list"></div>
       </el-aside>
       <el-main class="blog_detail" v-if="blog">
-        <h3>{{blog.title}}</h3>
+        <h1 style="padding: 5px 0 10px 0;">{{blog.title}}</h1>
         <article class="markdown-body" v-html="content">
         </article>
-        <p style="align:right;margin: 5px 0 5px 0; text-align: right;">
-          <span>posted By&nbsp;{{blog.username}}&nbsp;at&nbsp;{{blog.created_time}}&nbsp;</span>
+        <p style="align:right;margin: 10px 0 5px 0; text-align: right;">
+          <span>{{blog.username}}&nbsp;提交于&nbsp;{{blog.created_time}}&nbsp;</span>
         </p>
         <p style="align:right;margin: 5px 0 5px 0;text-align: right;">
           <label style="margin-right: 5px;">标签:</label>
-          <span v-for="(t, index) in blog.tag" :key="t.id" style="margin-right: 5px;">#{{t.name}}</span>
+          <span v-for="(t, index) in blog.tag" :key="t.id" style="margin-right: 5px;">
+            <i>#{{t.name}}</i>
+          </span>
         </p>
         <p style="align:right;margin: 5px 0 5px 0;text-align: right;">
 

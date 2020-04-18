@@ -97,7 +97,7 @@
     <el-dialog title="编辑页面" :visible.sync="blog_dialog" :append-to-body="true" :fullscreen="true" :show-close="true"
       :style="{'max-height':screen_hight}" class="outer" :destroy-on-close="true" @close="close_dialog()">
       <mavon-editor v-model="blog_form.text" :ishljs="true" :externalLink="externalLink" :style="{'min-height':screen_hight}"
-        @save="save" />
+        @save="save" @imgAdd="$imgAdd" ref=md @imgDel="$imgDel"/>
     </el-dialog>
 
 
@@ -147,6 +147,7 @@
     get_type_list,
     add_new_blog,
     upload_blog_illustration,
+    delete_blog_illustration,
   } from "../../restful/index.js"
   export default {
     name: "blog_management",
@@ -368,6 +369,11 @@
           // 第二部 替换
           this.$refs.md.$img2Url(pos, response.data.data.img_path);
         });
+      },
+      $imgDel(pos){
+        delete_blog_illustration(pos[0]).then((response) =>{
+          console.log(response.data);
+        })
       },
     },
   }
