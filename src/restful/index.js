@@ -3,18 +3,6 @@ import store from '../store/index.js'
 
 Axios.defaults.baseURL = "http://127.0.0.1:8000/"
 
-export const get_token = () => {
-  Axios.request({
-    url: store.state.api_obj.token_url,
-    method: "GET",
-    params: {
-
-    }
-  }).then(function(response) {
-    if (response.data.code == 1000)
-      sessionStorage.setItem("X-TOKEN", response.data.data);
-  })
-};
 export const getBlogTotal = async () => {
   return await Axios.request({
     url: store.state.api_obj.bloglist,

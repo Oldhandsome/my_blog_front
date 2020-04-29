@@ -28,7 +28,7 @@
             <div class="tail-line" v-if="index!=(blog_list.length-1)"></div>
             <div class="small-size top-node" :style="{'background-color':color_list[index%8]}"></div>
             <div class="wrapper">
-              <div class="blog-title" @click="click_blog(blog._id);" v-html="blog.highlight.title[0]"></div>
+              <div class="blog-title blog" @click="click_blog(blog._id);" v-html="blog.highlight.title[0]"></div>
               <div class="blog-text">
                 <span v-html="blog.highlight.text[0]"></span>
               </div>
@@ -162,6 +162,7 @@
     font-size: 16px;
     padding-bottom: 5px;
     cursor: pointer;
+    font-style: italic;
   }
 
   .blog-text {

@@ -44,8 +44,34 @@
       </div>
     </el-dialog>
 
-    <el-drawer title="我是标题" :visible.sync="drawer" :with-header="false" :show-close="false" :append-to-body="true">
-      <span>我来啦!</span>
+    <el-drawer :visible.sync="drawer" :with-header="false" :show-close="false" :append-to-body="true">
+      <p style="text-align:center; padding:10px 0 10px 0;"><el-avatar :size="100" src="../../../static/images/header_1.jpg"></el-avatar></p>
+      <div>
+        <p style="padding:10px 20px 10px 20px;">
+          <label style="float: left; width: 30%; font-size: 16px; text-align: center; ">
+          昵称
+          </label>
+          <span>
+            Oldhandsome
+          </span>
+        </p>
+        <p style="padding:10px 20px 10px 20px;">
+          <label style="float: left; width: 30%; font-size: 16px; text-align: center;">
+            邮箱
+          </label>
+          <span>
+            over_flowing@163.com
+          </span>
+        </p>
+        <div style="padding:10px 20px 10px 20px;">
+          <div style="float: left; width: 30%; font-size: 16px; text-align: center; display: block; height: 100%;">
+            简介
+          </div>
+          <div style="float: left; width: 70%; font-size: 16px; display: block; height: 100%;">
+            <span>这个人很懒，什么都没留下~~~</span>
+          </div>
+        </div>
+      </div>
     </el-drawer>
   </div>
 </template>

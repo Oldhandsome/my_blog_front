@@ -19,27 +19,27 @@ Vue.use(mavonEditor)
 
 
 axios.interceptors.request.use(function(config){
-	// store.state.isShow=true; //在请求发出之前进行一些操作
 	// console.log(config)
-	if(sessionStorage.getItem("X-TOKEN"))
-		config.params['X-TOKEN'] = sessionStorage.getItem("X-TOKEN")
+	// if(sessionStorage.getItem("X-TOKEN"))
+  // config.params['X-TOKEN'] = sessionStorage.getItem("X-TOKEN")
 	return config
 },function(error){
 	console.log(error);
 });
 
 axios.interceptors.response.use(
-	// store.state.isShow=false;//在这里对返回的数据进行处理
 	response => {
-		// if(response.data.code != 1000)
-		// 	this.$message.error(response.data.message);
-		return response
+		return response;
 	},
 	error => {
-		if(error.response.data.code == "1003"){
-			get_token();
-			alert('请重新刷新网页!!!');
-		}
+		const { config, response: { data, status }} = error;
+    if(parseInt(status) == 403 && parseInt(data.code) == 1002)
+    {
+      // 若1003 之前的token 过期了，重新设置
+      sessionStorage.setItem("A-TOKEN", data.data);
+      config.params['A-TOKEN'] = data.data;
+      return axios.request(config);
+    }
 		return Promise.reject(error)
 	}
 );

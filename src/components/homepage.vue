@@ -1,17 +1,20 @@
 <template>
 	<div id="box">
 		<p style="height: 100px;"><img src="../../static/images/header_1.jpg" /></p>
-		<router-link :to="{path:'blogs'}">博客</router-link>
+		<div style="font-size: 18px; padding: 20px 10px;">
+      <router-link :to="{path:'blogs'}">博客</router-link>
+      <el-divider direction="vertical"></el-divider>
+      <a target="_blank" href="https://github.com/Oldhandsome">github</a>
+    </div>
 	</div>
 </template>
 
 <script>
-	import {get_token} from '../restful/index.js'
 	import store from "../store/index.js"
 	export default{
 		name:'homepage',
 		mounted(){
-			get_token();
+			// get_token();
 		},
 		beforeRouteLeave:(to,from,next) =>{
 			// store.state.screen = true;

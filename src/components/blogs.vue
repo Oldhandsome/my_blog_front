@@ -136,18 +136,4 @@
     font-size: 14px;
   }
 
-  .blog {
-    cursor: pointer;
-    transition: color .3s;
-    -moz-transition: color .3s;
-    /* Firefox 4 */
-    -webkit-transition: color .3s;
-    /* Safari 和 Chrome */
-    -o-transition: color .3s;
-    /* Opera */
-  }
-
-  .blog:hover {
-    color: aquamarine
-  }
 </style>
