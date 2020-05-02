@@ -1,9 +1,9 @@
 <template>
 	<div id="box">
 		<p style="height: 100px;"><img src="../../static/images/header_1.jpg" /></p>
-		<div style="font-size: 18px; padding: 20px 10px;">
-      <router-link :to="{path:'blogs'}">博客</router-link>
-      <el-divider direction="vertical"></el-divider>
+		<div style="font-size: 18px; padding: 20px 10px;" >
+      <router-link :to="{path:'blogs'}" >博客</router-link>
+      <el-divider direction="vertical" ></el-divider>
       <a target="_blank" href="https://github.com/Oldhandsome">github</a>
     </div>
 	</div>
@@ -24,6 +24,10 @@
 </script>
 
 <style scoped>
+  a{
+    text-decoration: none;
+    color: #073642;
+  }
 	#box{
 		width: 300px;
 		height: 300px;

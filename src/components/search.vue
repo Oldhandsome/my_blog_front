@@ -16,7 +16,7 @@
             <div class="content search-box">
               <el-autocomplete popper-class="my-autocomplete" v-model="keyword" :fetch-suggestions="querySearch"
                 :trigger-on-focus="false" placeholder="one word, one world!" @select="handleSelect">
-                <i class="el-icon-search el-input__icon" slot="suffix" @click="handelClick()">
+                <i class="el-icon-search el-input__icon" slot="suffix" style="cursor: pointer;" @click="handelClick()">
                 </i>
               </el-autocomplete>
               <p style="padding:5px 0px 5px 15px;color: #999;">共为您搜索到{{this.total}}条数据</p>
@@ -37,7 +37,7 @@
         </transition-group>
       </ul>
       <el-footer v-show="blog_list.length < total">
-        <div >
+        <div>
           <i class="el-icon-arrow-down"></i>
           <span style="cursor: pointer;" @click="get_more">加载更多</span>
         </div>
@@ -86,18 +86,26 @@
       },
       initialize_suggestion(options) {
         let suggestion = [];
-        for (let i = 0; i < options.length; i++) {
-          suggestion.push({
-            "id": i,
-            "value": options[i]['text']
-          })
-        }
+        if (options.length)
+          for (let i = 0; i < options.length; i++) {
+            suggestion.push({
+              "id": i,
+              "value": options[i]['text']
+            })
+          }
         return suggestion;
       },
       handleSelect(item) {
         // console.log(item);
       },
-      handelClick(keyword) {
+      handelClick() {
+        if (this.keyword == null || this.keyword.split(" ").join("").length === 0) {
+          this.$message({
+            message: '请输入关键字~~~',
+            type: 'warning'
+          });
+          return;
+        }
         this.blog_list = [];
         this.offset = 0;
         get_search_result(this.keyword, 0).then((response) => {
@@ -105,18 +113,25 @@
         });
       },
       set_search_result(result, total) {
+
+        if (result == null || result.length <= 0) {
+          this.$message({
+            message: '未找到任何有关的东东~~~',
+            type: 'info'
+          });
+          return;
+        }
         this.blog_list = this.blog_list.concat(result);
         this.total = total;
         this.offset = this.offset + result.length;
       },
       get_more() {
-        if(this.keyword == null || this.keyword.trim() == ""){
+        if (this.keyword == null || this.keyword.trim() == "") {
           this.$message({
             type: 'error',
             message: '关键字为空!'
           });
-        }
-        else{
+        } else {
           get_search_result(this.keyword, this.offset).then((response) => {
             this.set_search_result(response.data.data.hits.hits, response.data.data.hits.total.value);
           });

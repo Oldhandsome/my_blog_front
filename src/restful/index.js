@@ -62,7 +62,7 @@ export const get_search_result = async (keyword, position) => {
       "position": position
     }
   });
-};
+}; 
 export const get_type_list = async () => {
   return await Axios.request({
     url: store.state.api_obj.type_list,

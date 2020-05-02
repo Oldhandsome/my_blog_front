@@ -30,7 +30,7 @@
             <div class="tail-line"></div>
             <div class="small-size top-node" :style="{'background-color':color_list[index%8]}"></div>
             <div class="wrapper">
-              <div style="padding-bottom: 10px;"><span style="cursor: pointer;">{{tag.name}}</span></div>
+              <div style="padding-bottom: 10px;font-size: 1.25rem; font-weight: 100;font-style: oblique;"><span>{{tag.name}}</span></div>
               <div class="content">
                 <blogs_to_tag :tag_id="tag.id"></blogs_to_tag>
               </div>
@@ -125,5 +125,5 @@
     box-shadow: 0 0 3px black;
   }
 
-  
+
 </style>

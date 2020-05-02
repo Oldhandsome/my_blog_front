@@ -9,23 +9,25 @@
         <div id="cateloglist" class="k-catelog-list"></div>
       </el-aside>
       <el-main class="blog_detail" v-if="blog">
-        <h1 style="padding: 5px 0 10px 0;">{{blog.title}}</h1>
-        <article class="markdown-body" v-html="content">
-        </article>
-        <p style="align:right;margin: 10px 0 5px 0; text-align: right;">
-          <span>{{blog.username}}&nbsp;提交于&nbsp;{{blog.created_time}}&nbsp;</span>
-        </p>
-        <p style="align:right;margin: 5px 0 5px 0;text-align: right;">
-          <label style="margin-right: 5px;">标签:</label>
-          <span v-for="(t, index) in blog.tag" :key="t.id" style="margin-right: 5px;">
-            <i>#{{t.name}}</i>
-          </span>
-        </p>
-        <p style="align:right;margin: 5px 0 5px 0;text-align: right;">
+        <div class="article">
+          <h1 style="padding: 5px 0 10px 0;">{{blog.title}}</h1>
+          <article class="markdown-body" v-html="content">
+          </article>
+          <p style="align:right;margin: 10px 0 5px 0; text-align: right;">
+            <span>{{blog.username}}&nbsp;提交于&nbsp;{{blog.created_time}}&nbsp;</span>
+          </p>
+          <p style="align:right;margin: 5px 0 5px 0;text-align: right;">
+            <label style="margin-right: 5px;">标签:</label>
+            <span v-for="(t, index) in blog.tag" :key="t.id" style="margin-right: 5px;">
+              <i>#{{t.name}}</i>
+            </span>
+          </p>
+          <p style="align:right;margin: 5px 0 5px 0;text-align: right;">
 
-          <span  style="margin-right: 5px;">共浏览&nbsp;&nbsp;{{blog.view_times}}&nbsp;&nbsp;次</span>
-        </p>
-        <div name='comments'>
+            <span  style="margin-right: 5px;">共浏览&nbsp;&nbsp;{{blog.view_times}}&nbsp;&nbsp;次</span>
+          </p>
+          <div name='comments'>
+          </div>
         </div>
       </el-main>
     </el-container>
@@ -142,12 +144,17 @@
 
 
 <style scoped>
-  .markdown-body {
+  .article{
     box-sizing: border-box;
+    box-shadow: 2px 4px 6px gray;
+  }
+  
+  .markdown-body {
+
     min-width: 200px;
     max-width: 98%;
     margin: 0 auto;
-    box-shadow: 2px 4px 6px gray;
+
     padding-left: 20px;
     padding-right: 15px;
     padding-top: 40px;
