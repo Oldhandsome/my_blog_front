@@ -22,13 +22,13 @@
     "vue-router": "^3.0.1",
     "vuex": "^3.1.2",
     "serialize-javascript": "^2.1.1",
-    "minimist": "^0.2.1",
+    "minimist": "^1.2.6",
     "mem": "^4.0.0",
     "js-yaml": "^3.13.1"
   },
   "devDependencies": {
     "serialize-javascript": "^2.1.1",
-    "minimist": "^0.2.1",
+    "minimist": "^1.2.6",
     "mem": "^4.0.0",
     "js-yaml": "^3.13.1",
     "autoprefixer": "^7.1.2",
